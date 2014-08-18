@@ -1,0 +1,30 @@
+{
+    "version": "1",
+    "name": "Brainfox",
+    "description": "A simple brainfuck IDE",
+    "launch_path": "/index.html",
+    "icons": {
+        "128": "/icon-128.png"
+    },
+    "developer": {
+        "name": "316k",
+        "url": "http://wasting-ti.me/"
+    },
+    "locales": {
+        "en": {
+            "description": "A simple brainfuck IDE",
+            "developer": {
+                "name": "316k",
+                "url": "http://wasting-ti.me/"
+            }
+        },
+        "fr": {
+            "description": "Un environnement de développement Brainfuck",
+            "developer": {
+                "name": "316k",
+                "url": "http://wasting-ti.me/"
+            }
+        }
+    },
+    "default_locale": "en"
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Brainfox</title>
+        <meta charset="utf8">
+        <link rel="shortcut icon" href="icon-128.png" />
+        <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        #code {
+            color: lightgreen;
+            background: none;
+            background-color: black;
+            border: none;
+            width: 100%;
+            height: 66%;
+            overflow-y: scroll;
+            font-size: xx-large;
+            padding: 1%;
+            margin: 0;
+        }
+        #cursor {
+            border-left: 1px solid lightgreen;
+        }
+        button.controls {
+            width: 12.5%;
+            background-color: #222;
+            color: #0C0;
+        }
+        button.controls:nth-child(2n) {
+            background-color: #333;
+            color: #0F0;
+        }
+        button {
+            background-image: none;
+            border-radius: 0;
+            width: 20%;
+            margin: 0;
+            padding: 0;
+            font-size: xx-large;
+            border: 0;
+            display: block;
+            float: left;
+            height: 15%;
+            background-color: #444;
+            color: black;
+        }
+        button:nth-child(2n) {
+            background-color: #454;
+        }
+        </style>
+    </head>
+    <body>
+        <textarea id="code"></textarea>
+        <button class="controls">+</button>
+        <button class="controls">-</button>
+        <button class="controls">.</button>
+        <button class="controls">,</button>
+        <button class="controls">&gt;</button>
+        <button class="controls">&lt;</button>
+        <button class="controls">[</button>
+        <button class="controls">]</button>
+        <button id="clear">Clear</button>
+        <button id="minify">Minify</button>
+        <button id="run">Run</button>
+        <button id="backspace">&larr;</button>
+        <button id="return">&rdsh;</button>
+    </body>
+    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="brainfuck.js"></script>
+    <script type="text/javascript">
+        // https://stackoverflow.com/questions/512528/set-cursor-position-in-html-textbox
+        function setCaretPosition(id, position) {
+            var el = document.getElementById(id);
+
+            el.value = el.value;
+            // ^ this is used to not only get "focus", but
+            // to make sure we don't have it everything -selected-
+            // (it causes an issue in chrome, and having it doesn't hurt any other browser)
+
+            if (el !== null) {
+
+                if (el.createTextRange) {
+                    var range = el.createTextRange();
+                    range.move('character', position);
+                    range.select();
+                    return true;
+                } else {
+                    // (el.selectionStart === 0 added for Firefox bug)
+                    if (el.selectionStart || el.selectionStart === 0) {
+                        el.focus();
+                        el.setSelectionRange(position, position);
+                        return true;
+                    } else  { // fail city, fortunately this never happens (as far as I've tested) :)
+                        el.focus();
+                        return false;
+                    }
+                }
+            }
+        }
+
+        $(function() {
+            $('.controls').click(function() {
+                var caret = $('#code').get(0).selectionStart;
+                $("#code").val($('#code').val().substring(0, caret) + $(this).text() + $('#code').val().substring(caret));
+                setCaretPosition('code', caret + $(this).text().length);
+            });
+
+            $('#minify').click(function() {
+                var commands = $('#code').val().split('');
+                var minified = "";
+                for(index in commands) {
+                    if(['+', '-', '.', ',', '>', '<', '[', ']'].indexOf(commands[index]) != -1) {
+                        minified += commands[index];
+                    }
+                }
+                $('#code').val(minified);
+            });
+
+            $('#clear').click(function() {
+                $('#code').val('');
+            });
+
+            $('#backspace').click(function() {
+                var caret = $('#code').get(0).selectionStart;
+                $("#code").val($('#code').val().substring(0, caret - 1) + $('#code').val().substring(caret));
+                setCaretPosition('code', caret - 1);
+            });
+
+            $('#return').click(function() {
+                var caret = $('#code').get(0).selectionStart;
+                $("#code").val($('#code').val().substring(0, caret) + "\n" + $('#code').val().substring(caret));
+                setCaretPosition('code', caret + $(this).text().length);
+            });
+
+            $('#run').click(function() {
+                var program = new Brainfuck($('#code').val());
+                var output = "";
+                program.write = function(charCode) {
+                    output += String.fromCharCode(charCode);
+                };
+
+                program.read = function() {
+                    // Canceling the prompt will make the interpreter fail, which kind of cancel the execution...
+                    // Meh, it's not a bug, it's a feature ;)
+                    return String.charCodeAt(prompt('Input'), 0);
+                };
+
+                program.run();
+
+                if(output) {
+                    alert(output);
+                }
+            });
+
+            $('button').click(function() {
+                $('#code').focus();
+                navigator.vibrate(55);
+            });
+        });
+    </script>
+</html>
