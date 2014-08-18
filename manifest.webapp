@@ -1,5 +1,5 @@
 {
-    "version": "1",
+    "version": "1.01",
     "name": "Brainfox",
     "description": "A simple brainfuck IDE",
     "launch_path": "/index.html",
