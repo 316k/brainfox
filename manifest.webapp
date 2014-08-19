@@ -3,7 +3,7 @@
     "name": "Brainfox",
     "description": "A simple brainfuck IDE.
 
-<a href="https://en.wikipedia.org/wiki/Brainfuck">As Wikipedia says so well,</a> brainfuck is "an esoteric programming language noted for its extreme minimalism". It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is <i>technically</i> Turing-complete).",
+<a href=\"https://en.wikipedia.org/wiki/Brainfuck\">As Wikipedia says so well,</a> brainfuck is \"an esoteric programming language noted for its extreme minimalism\". It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is <i>technically</i> Turing-complete).",
     "launch_path": "/index.html",
     "icons": {
         "128": "/icon-128.png"
@@ -16,7 +16,7 @@
         "en": {
             "description": "A simple brainfuck IDE.
 
-<a href="https://en.wikipedia.org/wiki/Brainfuck">As Wikipedia says so well,</a> brainfuck is "an esoteric programming language noted for its extreme minimalism". It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is <i>technically</i> Turing-complete).",
+<a href=\"https://en.wikipedia.org/wiki/Brainfuck\">As Wikipedia says so well,</a> brainfuck is \"an esoteric programming language noted for its extreme minimalism\". It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is <i>technically</i> Turing-complete).",
             "developer": {
                 "name": "316k",
                 "url": "http://wasting-ti.me/"
@@ -25,7 +25,7 @@
         "fr": {
             "description": "Un environnement de développement Brainfuck.
 
-Le <a href="https://fr.wikipedia.org/wiki/Brainfuck">Brainfuck</a> est un langage de programmation ésotérique minimaliste, conçu principalement pour amuser les programmeurs. Bien qu'il soit (techniquement) Turing-complet, il est composé d'uniquement huit opérateurs, ce qui le rend particulièrement difficile à lire et à écrire.",
+Le <a href=\"https://fr.wikipedia.org/wiki/Brainfuck\">Brainfuck</a> est un langage de programmation ésotérique minimaliste, conçu principalement pour amuser les programmeurs. Bien qu'il soit (techniquement) Turing-complet, il est composé d'uniquement huit opérateurs, ce qui le rend particulièrement difficile à lire et à écrire.",
             "developer": {
                 "name": "316k",
                 "url": "http://wasting-ti.me/"
