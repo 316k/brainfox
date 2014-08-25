@@ -75,7 +75,7 @@ function load(filename) {
 
 $(function() {
     $('#tools, #ascii-table').hide();
-
+    window.localStorage.setItem('limit', parseInt(window.localStorage.getItem('limit')) || 5000);
     ascii_table();
 
     $('#save, #save-as, #load').each(function() {
@@ -107,12 +107,19 @@ $(function() {
         }
     });
 
-    $('#clear').click(function() {
-        confirm('Clear all code ?') && $('#code').val('');
-    });
-
     $('#ascii').click(function() {
         $('#code, #ascii-table').slideToggle();
+    });
+
+    $('#exec-limit').click(function() {
+        var limit = prompt('Limit of commands to execute ? (current: ' + (window.localStorage.getItem('limit')) + ')');
+        if(limit) {
+            window.localStorage.setItem('limit', limit);
+        }
+    });
+
+    $('#clear').click(function() {
+        confirm('Clear all code ?') && $('#code').val('');
     });
 
     $('#minify').click(function() {
@@ -169,7 +176,7 @@ $(function() {
 
         var loop = true;
         while(loop) {
-            program.run(5000);
+            program.run(window.localStorage.limit);
             if(program.code[program.ip]) {
                 loop = confirm("Lots of code... Continue ?");
             } else {

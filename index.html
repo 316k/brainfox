@@ -39,12 +39,14 @@
         }
         button {
             background-image: none;
+            border: none;
+            border-right: 0.1px solid #010;
+            border-top: 0.1px solid #010;
             border-radius: 0;
             width: 25%;
             margin: 0;
             padding: 0;
             font-size: xx-large;
-            border: 0;
             display: block;
             float: left;
             height: 50%;
@@ -67,7 +69,10 @@
             background-color: #454;
         }
         #tools button {
-            width: 25%;
+            width: 20%;
+        }
+        #tools #clear, #tools #minify, #tools #insert {
+            width: 26.666%;
         }
         </style>
     </head>
@@ -101,9 +106,10 @@
         </section>
         <section id="tools">
             <button id="save">Save</button>
-            <button id="save-as">Save as</button>
+            <button id="save-as">Save as...</button>
             <button id="load">Load</button>
-            <button id="ascii">ASCII</button>
+            <button id="ascii">ASCII Table</button>
+            <button id="exec-limit">Exec limit</button>
             <button class="toggle-tools">&times;</button>
             <button id="clear">Clear</button>
             <button id="minify">Minify</button>
