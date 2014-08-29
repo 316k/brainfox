@@ -41,19 +41,32 @@ function ascii_table() {
 
 function save(filename) {
     var sdcard = navigator.getDeviceStorage("sdcard");
-    var file = new Blob([$("#code").val()], {type: "text/plain"});
 
-    var request = sdcard.addNamed(file, filename);
+    var get_request = sdcard.get(filename);
 
-    request.onsuccess = function () {
-      var name = this.result;
-      alert('File "' + name + '" successfully wrote on the sdcard !');
+    // If the file doesn't exist, we can save it
+    get_request.onerror = function() {
+        var file = new Blob([$("#code").val()], {type: "text/plain"});
+
+        var add_request = sdcard.addNamed(file, filename);
+
+        add_request.onsuccess = function () {
+            var name = this.result;
+            alert('File "' + name + '" successfully saved !');
+            refresh_files();
+        }
+
+        // An error typically occur if a file with the same name already exist
+        add_request.onerror = function () {
+            alert('Unable to write the file: ' + this.error.name + ' ' + this.error.message);
+        }
     }
 
-    // An error typically occur if a file with the same name already exist
-    request.onerror = function () {
-      alert('Unable to write the file: ' + this.error);
-      console.log(this.error);
+    get_request.onsuccess = function() {
+        if(filename == 'brainfox/' + localStorage.getItem('current_file') || confirm('Overwrite ?')) {
+            var delete_request = sdcard.delete(this.result.name);
+            delete_request.onsuccess = get_request.onerror;
+        }
     }
 }
 
@@ -64,12 +77,34 @@ function load(filename) {
 
     request.onsuccess = function () {
         var file = this.result;
-        $("#code").val(JSON.stringify(file));
-        alert('Success !');
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onloadend = function() {
+            $("#code").val(reader.result);
+        };
     }
 
     request.onerror = function () {
         alert("Unable to get the file: " + this.error);
+    }
+}
+
+function refresh_files() {
+    var sdcard = navigator.getDeviceStorage('sdcard');
+
+    var cursor = sdcard.enumerate();
+
+    $('#select-file').empty()
+                     .append('<option value="">None</option>');
+
+    cursor.onsuccess = function () {
+        var file = this.result;
+        if (file != null) {
+            if(file.name.startsWith('/sdcard/brainfox/')) {
+                $('<option val="' + file.name + '">' + file.name + "</option>").appendTo('#select-file');
+            }
+            this.continue();
+        }
     }
 }
 
@@ -81,6 +116,11 @@ $(function() {
     $('#save, #save-as, #load').each(function() {
         $(this).prop('disabled', !("getDeviceStorage" in navigator));
     });
+
+    if("getDeviceStorage" in navigator) {
+        refresh_files();
+        localStorage.setItem('current_file', '');
+    }
 
     $('.controls').click(function() {
         var caret = $('#code').get(0).selectionStart;
@@ -94,21 +134,32 @@ $(function() {
 
     // Tools
     $('#save').click(function() {
-        var filename = prompt('File name ?');
+        var filename = prompt('File name ?', localStorage.getItem('current_file'));
         if(filename) {
-            save(filename + '.bf');
+            filename.endsWith('.bf') || (filename += '.bf');
+            save('brainfox/' + filename);
         }
     });
 
     $('#load').click(function() {
-        var filename = prompt('File name ?');
-        if(filename) {
-            load(filename + '.bf');
-        }
+        $('#select-file').focus().unbind('blur').blur(function() {
+            var filename = $('#select-file').val();
+            if(filename != '') {
+                load(filename);
+            }
+            localStorage.setItem('current_file', filename.replace(/^\/sdcard\/brainfox\//, ''));
+            $('#code').focus();
+            navigator.vibrate(55);
+        });
     });
 
     $('#ascii').click(function() {
         $('#code, #ascii-table').slideToggle();
+    });
+
+    $('.toggle-tools, #clear, #minify, #insert').click(function() {
+        $('#ascii-table').slideUp();
+        $('#code').slideDown();
     });
 
     $('#exec-limit').click(function() {
@@ -123,6 +174,10 @@ $(function() {
     });
 
     $('#minify').click(function() {
+        if(!confirm('Remove all non-brainfuck characters ?')) {
+            return;
+        }
+
         var commands = $('#code').val().split('');
         var minified = "";
         for(index in commands) {
@@ -189,8 +244,9 @@ $(function() {
         }
     });
 
-    $('button').click(function() {
+    $('button:not(#load)').click(function() {
         $('#code').focus();
         navigator.vibrate(55);
     });
+    $('#code').focus();
 });
