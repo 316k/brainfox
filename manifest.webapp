@@ -1,7 +1,7 @@
 {
-    "version": "1.02",
+    "version": "2",
     "name": "Brainfox",
-    "description": "A simple brainfuck IDE. As Wikipedia says so well, brainfuck is an esoteric programming language noted for its extreme minimalism. It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is <i>technically</i> Turing-complete).",
+    "description": "A simple brainfuck IDE. As Wikipedia says so well, brainfuck is an esoteric programming language noted for its extreme minimalism. It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is *technically* Turing-complete).",
     "launch_path": "/index.html",
     "icons": {
         "128": "/icon-128.png"
@@ -12,7 +12,7 @@
     },
     "locales": {
         "en": {
-            "description": "A simple brainfuck IDE. As Wikipedia says so well, brainfuck is an esoteric programming language noted for its extreme minimalism. It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is <i>technically</i> Turing-complete).",
+            "description": "A simple brainfuck IDE. As Wikipedia says so well, brainfuck is an esoteric programming language noted for its extreme minimalism. It is composed of eight (and only eight) operators and it is mainly designed for fun (though it is *technically* Turing-complete).",
             "developer": {
                 "name": "316k",
                 "url": "http://wasting-ti.me/"
