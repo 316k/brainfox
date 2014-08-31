@@ -29,6 +29,9 @@
     "default_locale": "en",
     "type": "privileged",
     "permissions": {
-      "device-storage:sdcard":{ "access": "readwrite" }
+        "device-storage:sdcard":{
+            "access": "readwrite",
+            "description": "Used to save/load code files."
+        }
     }
 }
